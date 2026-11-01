@@ -1,42 +1,27 @@
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.ArrayList;
 import model.Account;
 import model.CurrentAccount;
-import model.FixedDepositAccount;
 import model.SavingsAccount;
-import service.ReportGenerator;
-import util.StatePersister;
-import util.TransactionLog;
+import service.AccountStore;
 
 public class MiniBank {
-    public static void main(String[] args) throws Exception {
-        Account[] accounts = {
-            new SavingsAccount("Alice", 7000, 1000),
-            new CurrentAccount("Bob", 4000, 2000),
-            new FixedDepositAccount("Charlie", 50000)
-        };
+    public static void main(String[] args) {
+        AccountStore store = new AccountStore();
 
-        Path dataFile = Files.createTempFile("accounts_", ".dat");
-        StatePersister.save(accounts, dataFile);
+        SavingsAccount a1 = new SavingsAccount("User1", 5000, 500);
+        SavingsAccount a2 = new SavingsAccount("User2", 2000, 500);
+        CurrentAccount a3 = new CurrentAccount("User3", 9000, 1000);
 
-        Account[] loaded = StatePersister.load(dataFile);
-        System.out.println("Reloaded accounts successfully: " + loaded.length + " accounts.");
-        for (Account a : loaded) {
-            System.out.println("  " + a);
+        store.add(a1);
+        store.add(a2);
+        store.add(a3);
+
+        System.out.println("Lookup by account number: " + store.get(a2.getAccountNumber()));
+
+        System.out.println("Accounts sorted by balance (highest first):");
+        ArrayList<Account> sorted = store.sortedByBalance();
+        for (Account a : sorted) {
+            System.out.println("  " + a.getAccountNumber() + " (" + a.getOwnerName() + ") -> Rs. " + a.getBalance());
         }
-        Files.deleteIfExists(dataFile);
-
-        Path logDir = Files.createTempDirectory("bank_logs_");
-        Path logFile = logDir.resolve("daily.log");
-        TransactionLog.append(logFile, "DEPOSIT AC0001 500");
-        TransactionLog.append(logFile, "WITHDRAW AC0002 200");
-
-        Path reportFile = logDir.resolve("report.txt");
-        ReportGenerator.generateReport(logDir, reportFile);
-
-        System.out.println(Files.readString(reportFile));
-        Files.deleteIfExists(logFile);
-        Files.deleteIfExists(reportFile);
-        Files.deleteIfExists(logDir);
     }
 }

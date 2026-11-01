@@ -8,7 +8,7 @@ import exception.InvalidAmountException;
 import model.annotation.Id;
 import model.annotation.Positive;
 
-public abstract class Account implements Transactable, InterestBearing, Serializable {
+public abstract class Account implements Transactable, InterestBearing, Comparable<Account>, Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -82,6 +82,11 @@ public abstract class Account implements Transactable, InterestBearing, Serializ
 
     public boolean isActive() {
         return active;
+    }
+
+    @Override
+    public int compareTo(Account other) {
+        return this.accountNumber.compareTo(other.accountNumber);
     }
 
     @Override
