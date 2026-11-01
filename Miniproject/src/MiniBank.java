@@ -1,22 +1,21 @@
 public class MiniBank {
-    record BankInfo(String name, String branch) {}
-
     public static void main(String[] args) {
-        BankInfo info = new BankInfo("MiniBank", "Main Branch");
-        System.out.println("=== " + info.name() + " (" + info.branch() + ") ===");
+        Account a1 = new Account("Alice", 5000);
+        Account a2 = new Account("Bob", 2000);
 
-        Account[] accounts = new Account[3];
-        accounts[0] = new Account("Alice", 5000);
-        accounts[1] = new Account("Bob", 2000);
-        accounts[2] = new Account("Charlie");
+        System.out.println("Account 1: " + a1);
+        System.out.println("Account 2: " + a2);
 
-        accounts[0].deposit(2000);
-        System.out.println("Alice balance after deposit: " + accounts[0].getBalance());
+        System.out.println("a1 equals a2: " + a1.equals(a2));
 
-        boolean ok = accounts[0].withdraw(3000);
-        System.out.println("Alice withdraw 3000 success: " + ok + ", balance: " + accounts[0].getBalance());
+        Object obj = a1;
+        if (obj instanceof Account) {
+            System.out.println("obj is an instance of Account: " + ((Account) obj).getOwnerName());
+        }
 
-        boolean fail = accounts[0].withdraw(10000);
-        System.out.println("Alice withdraw 10000 success: " + fail + ", balance: " + accounts[0].getBalance());
+        Customer c = new Customer("Alice", "alice@test.com", "9876543210");
+        c.setAddress(new Customer.Address("123 MG Road", "Ahmedabad", "380001"));
+        Customer copy = c.clone();
+        System.out.println("Cloned Customer: " + copy.getName() + ", Address: " + copy.getAddress());
     }
 }

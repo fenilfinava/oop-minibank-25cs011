@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Account {
     private final String accountNumber;
     private String ownerName;
@@ -48,5 +50,20 @@ public class Account {
 
     public boolean isActive() {
         return active;
+    }
+
+    public String toString() {
+        return accountNumber + " | " + ownerName + " | Balance: " + balance;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return Objects.equals(accountNumber, account.accountNumber);
+    }
+
+    public int hashCode() {
+        return Objects.hash(accountNumber);
     }
 }
