@@ -1,23 +1,22 @@
-import exception.*;
-import model.*;
-import service.BankSession;
+import model.SavingsAccount;
+import service.AccountWorker;
 
 public class MiniBank {
-    public static void main(String[] args) {
-        try (BankSession session = new BankSession()) {
-            SavingsAccount acc = new SavingsAccount("Alice", 1000, 500);
+    public static void main(String[] args) throws InterruptedException {
+        SavingsAccount acc = new SavingsAccount("SharedAccount", 0, 0);
 
-            try {
-                acc.withdraw(5000);
-            } catch (InsufficientFundsException e) {
-                System.out.println("Withdrawal failed: short by " + e.getShortfall());
-            } catch (InvalidAmountException e) {
-                System.out.println("Invalid amount: " + e.getMessage());
-            }
-
-            System.out.println("Account balance remains: " + acc.getBalance());
-        } catch (Exception e) {
-            System.out.println("Unexpected error: " + e.getMessage());
+        Thread[] threads = new Thread[10];
+        for (int i = 0; i < threads.length; i++) {
+            threads[i] = new Thread(new AccountWorker(acc, 1000, 1), "Worker-" + (i + 1));
+            System.out.println("Created and starting: " + threads[i].getName());
+            threads[i].start();
         }
+
+        for (Thread t : threads) {
+            t.join();
+            System.out.println("Finished: " + t.getName());
+        }
+
+        System.out.println("Final account balance (expected 10000): " + acc.getBalance());
     }
 }
