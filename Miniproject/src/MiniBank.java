@@ -1,27 +1,26 @@
-import java.util.ArrayList;
 import model.Account;
-import model.CurrentAccount;
+import model.Customer;
 import model.SavingsAccount;
-import service.AccountStore;
+import repository.Repository;
 
 public class MiniBank {
     public static void main(String[] args) {
-        AccountStore store = new AccountStore();
+        Repository<Account> accRepo = new Repository<>();
+        Account a1 = new SavingsAccount("Alice", 10000, 1000);
+        Account a2 = new SavingsAccount("Bob", 8000, 1000);
+        Account a3 = new SavingsAccount("Charlie", 15000, 1000);
 
-        SavingsAccount a1 = new SavingsAccount("User1", 5000, 500);
-        SavingsAccount a2 = new SavingsAccount("User2", 2000, 500);
-        CurrentAccount a3 = new CurrentAccount("User3", 9000, 1000);
+        accRepo.saveAll(a1, a2, a3);
 
-        store.add(a1);
-        store.add(a2);
-        store.add(a3);
+        System.out.println("findById: " + accRepo.findById(a2.getAccountNumber()));
+        System.out.println("findAll total accounts: " + accRepo.findAll().size());
 
-        System.out.println("Lookup by account number: " + store.get(a2.getAccountNumber()));
+        Repository<Customer> custRepo = new Repository<>();
+        Customer c1 = new Customer("Fenil", "fenil@test.com", "9876543210");
+        custRepo.save(c1);
+        System.out.println("Found customer by id: " + custRepo.findById(c1.getCustomerId()));
 
-        System.out.println("Accounts sorted by balance (highest first):");
-        ArrayList<Account> sorted = store.sortedByBalance();
-        for (Account a : sorted) {
-            System.out.println("  " + a.getAccountNumber() + " (" + a.getOwnerName() + ") -> Rs. " + a.getBalance());
-        }
+        Long[] balances = { a1.getBalance(), a2.getBalance(), a3.getBalance() };
+        System.out.println("Average balance: Rs. " + Repository.average(balances));
     }
 }
