@@ -1,46 +1,42 @@
-import exception.BankException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import model.Account;
+import model.CurrentAccount;
+import model.FixedDepositAccount;
 import model.SavingsAccount;
-import service.TransactionProcessor;
+import service.ReportGenerator;
+import util.StatePersister;
+import util.TransactionLog;
 
 public class MiniBank {
-    public static void main(String[] args) throws InterruptedException {
-        SavingsAccount a1 = new SavingsAccount("User1", 5000, 500);
-        SavingsAccount a2 = new SavingsAccount("User2", 5000, 500);
+    public static void main(String[] args) throws Exception {
+        Account[] accounts = {
+            new SavingsAccount("Alice", 7000, 1000),
+            new CurrentAccount("Bob", 4000, 2000),
+            new FixedDepositAccount("Charlie", 50000)
+        };
 
-        TransactionProcessor processor = new TransactionProcessor();
+        Path dataFile = Files.createTempFile("accounts_", ".dat");
+        StatePersister.save(accounts, dataFile);
 
-        for (int i = 0; i < 5; i++) {
-            processor.submit(() -> {
-                try {
-                    a1.deposit(100);
-                } catch (Exception e) {
-                }
-            });
+        Account[] loaded = StatePersister.load(dataFile);
+        System.out.println("Reloaded accounts successfully: " + loaded.length + " accounts.");
+        for (Account a : loaded) {
+            System.out.println("  " + a);
         }
+        Files.deleteIfExists(dataFile);
 
-        processor.stop();
-        System.out.println("Balance after batch deposits: " + a1.getBalance());
+        Path logDir = Files.createTempDirectory("bank_logs_");
+        Path logFile = logDir.resolve("daily.log");
+        TransactionLog.append(logFile, "DEPOSIT AC0001 500");
+        TransactionLog.append(logFile, "WITHDRAW AC0002 200");
 
-        Thread t1 = new Thread(() -> {
-            try {
-                TransactionProcessor.transferSafe(a1, a2, 500);
-            } catch (BankException e) {
-            }
-        });
+        Path reportFile = logDir.resolve("report.txt");
+        ReportGenerator.generateReport(logDir, reportFile);
 
-        Thread t2 = new Thread(() -> {
-            try {
-                TransactionProcessor.transferSafe(a2, a1, 300);
-            } catch (BankException e) {
-            }
-        });
-
-        t1.start();
-        t2.start();
-        t1.join();
-        t2.join();
-
-        System.out.println("Final A1 balance: " + a1.getBalance());
-        System.out.println("Final A2 balance: " + a2.getBalance());
+        System.out.println(Files.readString(reportFile));
+        Files.deleteIfExists(logFile);
+        Files.deleteIfExists(reportFile);
+        Files.deleteIfExists(logDir);
     }
 }
