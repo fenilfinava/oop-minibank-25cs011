@@ -1,10 +1,15 @@
 package model;
 
 import java.util.Objects;
+import model.annotation.Id;
+import model.annotation.Positive;
 
 public abstract class Account implements Transactable, InterestBearing {
+    @Id
     private final String accountNumber;
     private String ownerName;
+
+    @Positive
     private long balance;
     private boolean active;
     private static long accountCounter = 0;
@@ -57,10 +62,12 @@ public abstract class Account implements Transactable, InterestBearing {
         return active;
     }
 
+    @Override
     public String toString() {
         return accountNumber + " | " + ownerName + " | Balance: " + balance;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -68,6 +75,7 @@ public abstract class Account implements Transactable, InterestBearing {
         return Objects.equals(accountNumber, account.accountNumber);
     }
 
+    @Override
     public int hashCode() {
         return Objects.hash(accountNumber);
     }

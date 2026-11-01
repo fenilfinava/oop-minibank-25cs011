@@ -1,26 +1,17 @@
 import model.*;
-import util.*;
-import static util.Validator.isValidMobile;
+import util.AnnotationValidator;
 
 public class MiniBank {
     public static void main(String[] args) {
-        BankInfo info = new BankInfo("MiniBank", "Main Branch");
-        System.out.println("=== " + info.name() + " (" + info.branch() + ") ===");
+        SavingsAccount badAccount = new SavingsAccount("Invalid", -100, 500);
+        String[] errors = AnnotationValidator.validate(badAccount);
 
-        SavingsAccount sa = new SavingsAccount("Alice", 10000, 1000);
-        System.out.println("Savings yearly interest: Rs. " + sa.yearlyInterest());
+        for (String err : errors) {
+            System.out.println("Validation Error: " + err);
+        }
 
-        WithdrawRule basicRule = new WithdrawRule() {
-            public boolean allow(Account account, long amount) {
-                return account.canWithdraw(amount);
-            }
-        };
-
-        WithdrawRule lambdaRule = (account, amount) -> account.canWithdraw(amount);
-
-        System.out.println("Anonymous rule allow 2000: " + basicRule.allow(sa, 2000));
-        System.out.println("Lambda rule allow 2000: " + lambdaRule.allow(sa, 2000));
-
-        System.out.println("Static import mobile check: " + isValidMobile("9876543210"));
+        SavingsAccount goodAccount = new SavingsAccount("Valid", 5000, 500);
+        String[] goodErrors = AnnotationValidator.validate(goodAccount);
+        System.out.println("Valid account errors count: " + goodErrors.length);
     }
 }
