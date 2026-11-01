@@ -1,15 +1,20 @@
 public class MiniBank {
     public static void main(String[] args) {
-        System.out.println("Valid mobile (9876543210): " + Validator.isValidMobile("9876543210"));
-        System.out.println("Invalid mobile (12345): " + Validator.isValidMobile("12345"));
-        System.out.println("Valid email (test@bank.com): " + Validator.isValidEmail("test@bank.com"));
-        System.out.println("Valid PAN (ABCDE1234F): " + Validator.isValidPan("ABCDE1234F"));
-        System.out.println("Valid IFSC (SBIN0001234): " + Validator.isValidIfsc("SBIN0001234"));
+        Account[] accounts = {
+            new SavingsAccount("Alice", 10000, 1000),
+            new CurrentAccount("Bob", 5000, 2000),
+            new FixedDepositAccount("Charlie", 50000)
+        };
 
-        Command cmd = CommandParser.parse("DEPOSIT AC0001 500");
-        System.out.println("Parsed Command: " + cmd.type() + ", Account: " + cmd.accountNumber() + ", Amount: " + cmd.amount());
-
-        Account acc = new Account("Alice", 10000);
-        System.out.print(StatementFormatter.buildStatement(acc));
+        for (Account a : accounts) {
+            System.out.println(a.getAccountNumber() + " (" + a.getOwnerName() + ") Interest Rate: " + a.interestRate() + "%");
+            if (a instanceof SavingsAccount sa) {
+                System.out.println("  Min Balance required: Rs. " + sa.getMinBalance());
+            } else if (a instanceof CurrentAccount ca) {
+                System.out.println("  Overdraft Limit: Rs. " + ca.getOverdraftLimit());
+            } else if (a instanceof FixedDepositAccount) {
+                System.out.println("  Fixed deposit locked until maturity.");
+            }
+        }
     }
 }
