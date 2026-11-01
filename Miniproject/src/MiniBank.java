@@ -1,22 +1,46 @@
+import exception.BankException;
 import model.SavingsAccount;
-import service.AccountWorker;
+import service.TransactionProcessor;
 
 public class MiniBank {
     public static void main(String[] args) throws InterruptedException {
-        SavingsAccount acc = new SavingsAccount("SharedAccount", 0, 0);
+        SavingsAccount a1 = new SavingsAccount("User1", 5000, 500);
+        SavingsAccount a2 = new SavingsAccount("User2", 5000, 500);
 
-        Thread[] threads = new Thread[10];
-        for (int i = 0; i < threads.length; i++) {
-            threads[i] = new Thread(new AccountWorker(acc, 1000, 1), "Worker-" + (i + 1));
-            System.out.println("Created and starting: " + threads[i].getName());
-            threads[i].start();
+        TransactionProcessor processor = new TransactionProcessor();
+
+        for (int i = 0; i < 5; i++) {
+            processor.submit(() -> {
+                try {
+                    a1.deposit(100);
+                } catch (Exception e) {
+                }
+            });
         }
 
-        for (Thread t : threads) {
-            t.join();
-            System.out.println("Finished: " + t.getName());
-        }
+        processor.stop();
+        System.out.println("Balance after batch deposits: " + a1.getBalance());
 
-        System.out.println("Final account balance (expected 10000): " + acc.getBalance());
+        Thread t1 = new Thread(() -> {
+            try {
+                TransactionProcessor.transferSafe(a1, a2, 500);
+            } catch (BankException e) {
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            try {
+                TransactionProcessor.transferSafe(a2, a1, 300);
+            } catch (BankException e) {
+            }
+        });
+
+        t1.start();
+        t2.start();
+        t1.join();
+        t2.join();
+
+        System.out.println("Final A1 balance: " + a1.getBalance());
+        System.out.println("Final A2 balance: " + a2.getBalance());
     }
 }
