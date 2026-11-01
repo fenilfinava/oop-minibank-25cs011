@@ -1,6 +1,9 @@
 package model;
 
 import java.util.Objects;
+import exception.BankException;
+import exception.InsufficientFundsException;
+import exception.InvalidAmountException;
 import model.annotation.Id;
 import model.annotation.Positive;
 
@@ -32,18 +35,34 @@ public abstract class Account implements Transactable, InterestBearing {
     public abstract double interestRate();
     public abstract boolean canWithdraw(long amount);
 
-    public void deposit(long amount) {
-        if (amount > 0) {
-            balance += amount;
+    public void deposit(long amount) throws InvalidAmountException {
+        if (amount <= 0) {
+            throw new InvalidAmountException("Deposit amount must be positive: " + amount);
         }
+        balance += amount;
     }
 
-    public boolean withdraw(long amount) {
-        if (amount > 0 && canWithdraw(amount)) {
-            balance -= amount;
-            return true;
+    public boolean withdraw(long amount) throws InsufficientFundsException, InvalidAmountException {
+        if (amount <= 0) {
+            throw new InvalidAmountException("Withdrawal amount must be positive: " + amount);
         }
-        return false;
+        if (!canWithdraw(amount)) {
+            long shortfall = amount - balance;
+            throw new InsufficientFundsException("Insufficient balance", shortfall > 0 ? shortfall : amount);
+        }
+        balance -= amount;
+        return true;
+    }
+
+    public void transfer(Account to, long amount) throws BankException {
+        try {
+            this.withdraw(amount);
+            to.deposit(amount);
+        } catch (BankException e) {
+            throw e;
+        } finally {
+            System.out.println("Transfer attempt finished for " + accountNumber + " -> " + to.getAccountNumber());
+        }
     }
 
     public String getAccountNumber() {

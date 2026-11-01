@@ -1,17 +1,23 @@
+import exception.*;
 import model.*;
-import util.AnnotationValidator;
+import service.BankSession;
 
 public class MiniBank {
     public static void main(String[] args) {
-        SavingsAccount badAccount = new SavingsAccount("Invalid", -100, 500);
-        String[] errors = AnnotationValidator.validate(badAccount);
+        try (BankSession session = new BankSession()) {
+            SavingsAccount acc = new SavingsAccount("Alice", 1000, 500);
 
-        for (String err : errors) {
-            System.out.println("Validation Error: " + err);
+            try {
+                acc.withdraw(5000);
+            } catch (InsufficientFundsException e) {
+                System.out.println("Withdrawal failed: short by " + e.getShortfall());
+            } catch (InvalidAmountException e) {
+                System.out.println("Invalid amount: " + e.getMessage());
+            }
+
+            System.out.println("Account balance remains: " + acc.getBalance());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
         }
-
-        SavingsAccount goodAccount = new SavingsAccount("Valid", 5000, 500);
-        String[] goodErrors = AnnotationValidator.validate(goodAccount);
-        System.out.println("Valid account errors count: " + goodErrors.length);
     }
 }
