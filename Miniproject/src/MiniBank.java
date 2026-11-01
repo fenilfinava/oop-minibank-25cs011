@@ -1,20 +1,26 @@
+import model.*;
+import util.*;
+import static util.Validator.isValidMobile;
+
 public class MiniBank {
     public static void main(String[] args) {
-        Account[] accounts = {
-            new SavingsAccount("Alice", 10000, 1000),
-            new CurrentAccount("Bob", 5000, 2000),
-            new FixedDepositAccount("Charlie", 50000)
+        BankInfo info = new BankInfo("MiniBank", "Main Branch");
+        System.out.println("=== " + info.name() + " (" + info.branch() + ") ===");
+
+        SavingsAccount sa = new SavingsAccount("Alice", 10000, 1000);
+        System.out.println("Savings yearly interest: Rs. " + sa.yearlyInterest());
+
+        WithdrawRule basicRule = new WithdrawRule() {
+            public boolean allow(Account account, long amount) {
+                return account.canWithdraw(amount);
+            }
         };
 
-        for (Account a : accounts) {
-            System.out.println(a.getAccountNumber() + " (" + a.getOwnerName() + ") Interest Rate: " + a.interestRate() + "%");
-            if (a instanceof SavingsAccount sa) {
-                System.out.println("  Min Balance required: Rs. " + sa.getMinBalance());
-            } else if (a instanceof CurrentAccount ca) {
-                System.out.println("  Overdraft Limit: Rs. " + ca.getOverdraftLimit());
-            } else if (a instanceof FixedDepositAccount) {
-                System.out.println("  Fixed deposit locked until maturity.");
-            }
-        }
+        WithdrawRule lambdaRule = (account, amount) -> account.canWithdraw(amount);
+
+        System.out.println("Anonymous rule allow 2000: " + basicRule.allow(sa, 2000));
+        System.out.println("Lambda rule allow 2000: " + lambdaRule.allow(sa, 2000));
+
+        System.out.println("Static import mobile check: " + isValidMobile("9876543210"));
     }
 }

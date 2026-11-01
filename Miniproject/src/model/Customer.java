@@ -1,3 +1,5 @@
+package model;
+
 public class Customer implements Cloneable {
     public static class Address {
         private String line;
