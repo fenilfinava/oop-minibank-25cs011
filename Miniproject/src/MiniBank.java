@@ -1,21 +1,15 @@
 public class MiniBank {
     public static void main(String[] args) {
-        Account a1 = new Account("Alice", 5000);
-        Account a2 = new Account("Bob", 2000);
+        System.out.println("Valid mobile (9876543210): " + Validator.isValidMobile("9876543210"));
+        System.out.println("Invalid mobile (12345): " + Validator.isValidMobile("12345"));
+        System.out.println("Valid email (test@bank.com): " + Validator.isValidEmail("test@bank.com"));
+        System.out.println("Valid PAN (ABCDE1234F): " + Validator.isValidPan("ABCDE1234F"));
+        System.out.println("Valid IFSC (SBIN0001234): " + Validator.isValidIfsc("SBIN0001234"));
 
-        System.out.println("Account 1: " + a1);
-        System.out.println("Account 2: " + a2);
+        Command cmd = CommandParser.parse("DEPOSIT AC0001 500");
+        System.out.println("Parsed Command: " + cmd.type() + ", Account: " + cmd.accountNumber() + ", Amount: " + cmd.amount());
 
-        System.out.println("a1 equals a2: " + a1.equals(a2));
-
-        Object obj = a1;
-        if (obj instanceof Account) {
-            System.out.println("obj is an instance of Account: " + ((Account) obj).getOwnerName());
-        }
-
-        Customer c = new Customer("Alice", "alice@test.com", "9876543210");
-        c.setAddress(new Customer.Address("123 MG Road", "Ahmedabad", "380001"));
-        Customer copy = c.clone();
-        System.out.println("Cloned Customer: " + copy.getName() + ", Address: " + copy.getAddress());
+        Account acc = new Account("Alice", 10000);
+        System.out.print(StatementFormatter.buildStatement(acc));
     }
 }
