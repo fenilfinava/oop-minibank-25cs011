@@ -1,29 +1,31 @@
-// Practical: lab-12 - Practical-3 (Leaderboard.java)
-// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
-// Subject: Object Oriented Programming (CEUE203)
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+// Practical 12 - Program 3: Tournament Leaderboard (TreeMap) (Interactive Input)
+// Student ID: 25CS011 | Fenil Jagdishbhai Finava
+import java.util.Scanner;
+import java.util.TreeMap;
+import java.util.Collections;
 import java.util.Map;
 
 public class Leaderboard {
     public static void main(String[] args) {
-        Map<String, Integer> scores = new HashMap<>();
-        scores.put("Fenil", 85);
-        scores.put("Aarav", 92);
-        scores.put("Priya", 92);
-        scores.put("Rohan", 78);
+        Scanner sc = new Scanner(System.in);
+        System.out.println("=== Tournament Ranked Leaderboard (TreeMap) ===");
 
-        List<Map.Entry<String, Integer>> list = new ArrayList<>(scores.entrySet());
-        list.sort((e1, e2) -> {
-            int cmp = e2.getValue().compareTo(e1.getValue());
-            return cmp != 0 ? cmp : e1.getKey().compareTo(e2.getKey());
-        });
+        TreeMap<Integer, String> board = new TreeMap<>(Collections.reverseOrder());
 
-        System.out.println("Leaderboard (Top 3):");
-        for (int i = 0; i < Math.min(3, list.size()); i++) {
-            Map.Entry<String, Integer> entry = list.get(i);
-            System.out.println((i + 1) + ". " + entry.getKey() + " (" + entry.getValue() + " pts)");
+        System.out.print("How many player scores do you want to add? ");
+        int n = sc.nextInt();
+
+        for (int i = 1; i <= n; i++) {
+            System.out.print("Enter Player " + i + " Name & Score (e.g. Fenil 950): ");
+            String name = sc.next();
+            int score = sc.nextInt();
+            board.put(score, name);
+        }
+
+        System.out.println("\n=== Official Standings (Ranked High to Low) ===");
+        int rank = 1;
+        for (Map.Entry<Integer, String> entry : board.entrySet()) {
+            System.out.println("Rank " + (rank++) + ": " + entry.getValue() + " -> " + entry.getKey() + " pts");
         }
     }
 }

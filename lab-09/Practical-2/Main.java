@@ -1,19 +1,26 @@
-// Practical: lab-09 - Practical-2 (Main.java)
-// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
-// Subject: Object Oriented Programming (CEUE203)
+// Practical 9 - Program 2: Concurrent Seat Booking (Interactive Input)
+// Student ID: 25CS011 | Fenil Jagdishbhai Finava
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        SeatBooking sb = new SeatBooking();
-        Thread[] threads = new Thread[10];
+        Scanner sc = new Scanner(System.in);
+        System.out.println("=== Concurrent Seat Reservation Simulator ===");
+        System.out.println("Default available seats: 5");
 
-        for (int i = 0; i < threads.length; i++) {
-            final String name = "User-" + (i + 1);
-            threads[i] = new Thread(() -> sb.bookSeat(name));
+        System.out.print("Enter number of concurrent booking users (e.g. 7): ");
+        int users = sc.nextInt();
+
+        SeatBooking system = new SeatBooking();
+        Thread[] threads = new Thread[users];
+
+        for (int i = 0; i < users; i++) {
+            final String user = "User-" + (i + 1);
+            threads[i] = new Thread(() -> system.bookSeat(user));
             threads[i].start();
         }
 
-        for (Thread t : threads) {
-            t.join();
-        }
+        for (Thread t : threads) t.join();
+        System.out.println("All reservation requests processed.");
     }
 }

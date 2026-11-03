@@ -1,15 +1,36 @@
-// Practical: lab-14 - Practical-1 (Main.java)
-// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
-// Subject: Object Oriented Programming (CEUE203)
+// Practical 14 - Program 1: Layered Catalog & Simple Test Suite (Interactive)
+// Student ID: 25CS011 | Fenil Jagdishbhai Finava
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        ItemService service = new ItemService();
-        service.addItem(new Item("IT01", "Notebook", 50.0));
-        service.addItem(new Item("IT02", "Pen", 15.0));
+        Scanner sc = new Scanner(System.in);
+        System.out.println("=== Layered Catalog Application ===");
 
-        System.out.println("Items listed in catalog (" + service.count() + "):");
-        for (Item item : service.getItems()) {
-            System.out.println("  " + item);
+        ItemService service = new ItemService();
+
+        System.out.print("How many items do you want to add to catalog? ");
+        int count = sc.nextInt();
+
+        for (int i = 1; i <= count; i++) {
+            System.out.print("Enter Item " + i + " (ID Name Price): ");
+            String id = sc.next();
+            String name = sc.next();
+            double price = sc.nextDouble();
+            try {
+                service.addItem(new Item(id, name, price));
+                System.out.println("Item added successfully!");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Validation Error: " + e.getMessage());
+            }
         }
+
+        System.out.println("\n--- Current Catalog Items (" + service.count() + ") ---");
+        for (Item it : service.getItems()) {
+            System.out.println("  " + it);
+        }
+
+        System.out.println("\n--- Running Automated Unit Tests ---");
+        SimpleTestRunner.main(new String[0]);
     }
 }

@@ -1,25 +1,39 @@
-// Practical: lab-06 - Practical-2 (Main.java)
-// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
-// Subject: Object Oriented Programming (CEUE203)
+// Practical 6 - Program 2: Notifier System & Marker Interface (Interactive Input)
+// Student ID: 25CS011 | Fenil Jagdishbhai Finava
+import java.util.Scanner;
+
 public class Main {
-    static class UrgentEmailNotifier implements Notifier, Urgent {
-        public void send(String msg) {
-            System.out.println("Email: " + msg);
-        }
-    }
-
     public static void main(String[] args) {
-        Notifier smsNotifier = msg -> System.out.println("SMS: " + msg);
-        Notifier emailNotifier = new UrgentEmailNotifier();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("=== Alert & Notification Dispatcher ===");
 
-        Notifier[] senders = { smsNotifier, emailNotifier };
-        String broadcast = "Server maintenance at 11 PM";
+        System.out.print("Enter message to broadcast: ");
+        String msg = sc.nextLine();
+        System.out.print("Is this an URGENT notification? (yes/no): ");
+        String urgent = sc.next();
 
-        for (Notifier n : senders) {
-            n.send(broadcast);
-            if (n instanceof Urgent) {
-                n.send(broadcast);
-            }
+        Notifier notifier;
+        if (urgent.equalsIgnoreCase("yes")) {
+            notifier = new UrgentSMSNotifier();
+        } else {
+            notifier = new EmailNotifier();
         }
+
+        System.out.println("\n--- Notification Dispatch Status ---");
+        boolean isUrgent = notifier instanceof Urgent;
+        System.out.println("Marker Interface [Urgent] Detected: " + isUrgent);
+        notifier.send(msg);
+    }
+}
+
+class UrgentSMSNotifier implements Notifier, Urgent {
+    public void send(String msg) {
+        System.out.println("[PRIORITY SMS] Sent high-priority alert: '" + msg + "'");
+    }
+}
+
+class EmailNotifier implements Notifier {
+    public void send(String msg) {
+        System.out.println("[STANDARD EMAIL] Sent regular notification: '" + msg + "'");
     }
 }

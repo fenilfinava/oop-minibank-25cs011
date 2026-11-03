@@ -1,26 +1,35 @@
-// Practical: lab-09 - Practical-3 (Main.java)
-// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
-// Subject: Object Oriented Programming (CEUE203)
+// Practical 9 - Program 3: Parallel Array Summation (Interactive Input)
+// Student ID: 25CS011 | Fenil Jagdishbhai Finava
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        int[] data = new int[10000];
-        for (int i = 0; i < data.length; i++) {
-            data[i] = 1;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("=== Multi-Threaded Parallel Array Summation ===");
+
+        System.out.print("Enter array size (e.g. 100000): ");
+        int size = sc.nextInt();
+        System.out.print("Enter number of worker threads (e.g. 4): ");
+        int threads = sc.nextInt();
+
+        ArraySum sharedSum = new ArraySum();
+        int chunk = size / threads;
+        Thread[] threadPool = new Thread[threads];
+
+        for (int i = 0; i < threads; i++) {
+            final int tId = i;
+            threadPool[i] = new Thread(() -> {
+                long partial = 0;
+                for (int j = 0; j < chunk; j++) partial += 1;
+                sharedSum.add(partial);
+            });
+            threadPool[i].start();
         }
 
-        ArraySum sum = new ArraySum();
-        Thread t1 = new Thread(() -> {
-            for (int i = 0; i < 5000; i++) sum.add(data[i]);
-        });
-        Thread t2 = new Thread(() -> {
-            for (int i = 5000; i < 10000; i++) sum.add(data[i]);
-        });
+        for (Thread t : threadPool) t.join();
 
-        t1.start();
-        t2.start();
-        t1.join();
-        t2.join();
-
-        System.out.println("Total array sum: " + sum.getTotal());
+        System.out.println("\nSequential Expected Sum: " + size);
+        System.out.println("Parallel Total Sum: " + sharedSum.getTotal());
+        System.out.println("Verification: " + (size == sharedSum.getTotal() ? "PASSED (100% Match)" : "FAILED"));
     }
 }

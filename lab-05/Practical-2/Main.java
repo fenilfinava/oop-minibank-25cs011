@@ -1,25 +1,30 @@
-// Practical: lab-05 - Practical-2 (Main.java)
-// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
-// Subject: Object Oriented Programming (CEUE203)
+// Practical 5 - Program 2: Employee Hierarchy & Payroll (Interactive Input)
+// Student ID: 25CS011 | Fenil Jagdishbhai Finava
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        Employee[] employees = {
-            new FullTime("Rahul", "E101", 50000),
-            new PartTime("Sneha", "E102", 40, 500),
-            new Intern("Aman", "E103", 15000)
-        };
+        Scanner sc = new Scanner(System.in);
+        System.out.println("=== Employee Payroll System ===");
 
-        double totalPayroll = 0;
-        for (Employee e : employees) {
-            double sal = e.monthlySalary();
-            System.out.print(e.getName() + " (" + e.getId() + "): Rs. " + sal);
-            if (e instanceof Intern) {
-                System.out.print(" [Note: Internship ends in 3 months]");
-            }
-            System.out.println();
-            totalPayroll += sal;
+        System.out.print("Enter FullTime Employee monthly salary: Rs. ");
+        double ftSal = sc.nextDouble();
+        Employee ft = new FullTime("Fenil", "E101", ftSal);
+
+        System.out.print("Enter PartTime Employee hours worked & hourly rate: ");
+        int ptHours = sc.nextInt();
+        double ptRate = sc.nextDouble();
+        Employee pt = new PartTime("Amit", "E102", ptHours, ptRate);
+
+        System.out.print("Enter Intern monthly stipend: Rs. ");
+        double stipend = sc.nextDouble();
+        Employee in = new Intern("Pooja", "E103", stipend);
+
+        Employee[] staff = { ft, pt, in };
+        System.out.println("\n--- Monthly Compensation Breakdown ---");
+        for (Employee e : staff) {
+            System.out.printf("%-10s (%-8s | ID: %s) -> Total Pay: Rs. %,.2f%n", 
+                              e.getName(), e.getClass().getSimpleName(), e.getId(), e.monthlySalary());
         }
-
-        System.out.println("Total Payroll: Rs. " + totalPayroll);
     }
 }

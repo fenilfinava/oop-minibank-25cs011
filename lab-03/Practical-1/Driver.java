@@ -1,30 +1,38 @@
-// Practical: lab-03 - Practical-1 (Driver.java)
-// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
-// Subject: Object Oriented Programming (CEUE203)
+// Practical 3 - Program 1: Distinct Points (Interactive Input)
+// Student ID: 25CS011 | Fenil Jagdishbhai Finava
+import java.util.Scanner;
+import java.util.ArrayList;
+
 public class Driver {
     public static void main(String[] args) {
-        Point[] points = {
-            new Point(1, 2),
-            new Point(3, 4),
-            new Point(1, 2),
-            new Point(5, 6),
-            new Point(3, 4)
-        };
+        Scanner sc = new Scanner(System.in);
+        System.out.println("=== Distinct 2D Points Tester ===");
+        System.out.print("How many points do you want to enter? (e.g. 5): ");
+        int n = sc.nextInt();
 
-        int distinctCount = 0;
-        for (int i = 0; i < points.length; i++) {
-            boolean duplicate = false;
-            for (int j = 0; j < i; j++) {
-                if (points[i].equals(points[j])) {
-                    duplicate = true;
-                    break;
-                }
-            }
-            if (!duplicate) {
-                distinctCount++;
+        Point[] points = new Point[n];
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter Point " + (i + 1) + " (x and y separated by space): ");
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            points[i] = new Point(x, y);
+        }
+
+        System.out.println("\n--- Entered Points ---");
+        for (Point p : points) {
+            System.out.println(p.toString() + " | HashCode: " + p.hashCode());
+        }
+
+        // Count unique points using equals()
+        ArrayList<Point> uniquePoints = new ArrayList<>();
+        for (Point p : points) {
+            if (!uniquePoints.contains(p)) {
+                uniquePoints.add(p);
             }
         }
 
-        System.out.println("Distinct: " + distinctCount);
+        System.out.println("\nTotal points entered: " + points.length);
+        System.out.println("Distinct points count: " + uniquePoints.size());
+        System.out.println("Unique points: " + uniquePoints);
     }
 }

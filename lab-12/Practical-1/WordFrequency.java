@@ -1,29 +1,28 @@
-// Practical: lab-12 - Practical-1 (WordFrequency.java)
-// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
-// Subject: Object Oriented Programming (CEUE203)
-import java.util.ArrayList;
-import java.util.Collections;
+// Practical 12 - Program 1: Word Frequency Counter (HashMap) (Interactive Input)
+// Student ID: 25CS011 | Fenil Jagdishbhai Finava
+import java.util.Scanner;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class WordFrequency {
     public static void main(String[] args) {
-        String text = "java python java c++ java python rust c++ java";
-        String[] words = text.toLowerCase().split("\\W+");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("=== Word Frequency Counter (HashMap) ===");
+        System.out.println("Enter a paragraph or sentence:");
+        String text = sc.nextLine();
 
-        Map<String, Integer> freq = new HashMap<>();
+        String[] words = text.toLowerCase().replaceAll("[^a-zA-Z0-9\\s]", "").split("\\s+");
+        Map<String, Integer> freqMap = new HashMap<>();
+
         for (String w : words) {
             if (!w.isEmpty()) {
-                freq.put(w, freq.getOrDefault(w, 0) + 1);
+                freqMap.put(w, freqMap.getOrDefault(w, 0) + 1);
             }
         }
 
-        List<Map.Entry<String, Integer>> list = new ArrayList<>(freq.entrySet());
-        list.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
-
-        for (Map.Entry<String, Integer> entry : list) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+        System.out.println("\n--- Word Frequency Occurrences ---");
+        for (Map.Entry<String, Integer> entry : freqMap.entrySet()) {
+            System.out.println("  " + entry.getKey() + ": " + entry.getValue());
         }
     }
 }

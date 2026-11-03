@@ -1,20 +1,22 @@
-// Practical: lab-13 - Practical-1 (Main.java)
-// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
-// Subject: Object Oriented Programming (CEUE203)
+// Practical 13 - Program 1: Generic Box<T> and Pair<A, B> (Interactive Input)
+// Student ID: 25CS011 | Fenil Jagdishbhai Finava
+import java.util.Scanner;
+
 public class Main {
-    public static <T> T first(T[] array) {
-        return (array != null && array.length > 0) ? array[0] : null;
-    }
-
     public static void main(String[] args) {
-        Box<String> strBox = new Box<>();
-        strBox.set("Hello Java");
-        System.out.println("Box contents: " + strBox.get());
+        Scanner sc = new Scanner(System.in);
+        System.out.println("=== Generic Containers (Type-Safety) ===");
 
-        Pair<String, Integer> p = new Pair<>("Age", 20);
-        System.out.println("Pair: " + p.getFirst() + " = " + p.getSecond());
+        System.out.print("Enter a message to store in Box<String>: ");
+        String msg = sc.nextLine();
+        Box<String> box = new Box<>();
+        box.set(msg);
+        System.out.println("Box contents: '" + box.get() + "' (Type: String)");
 
-        Integer[] nums = { 10, 20, 30 };
-        System.out.println("First element: " + first(nums));
+        System.out.print("\nEnter key (String) and value (Integer) for Pair<String, Integer>: ");
+        String key = sc.next();
+        int val = sc.nextInt();
+        Pair<String, Integer> pair = new Pair<>(key, val);
+        System.out.println("Pair stored -> Key: " + pair.getFirst() + ", Value: " + pair.getSecond());
     }
 }

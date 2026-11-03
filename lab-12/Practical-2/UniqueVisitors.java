@@ -1,26 +1,28 @@
-// Practical: lab-12 - Practical-2 (UniqueVisitors.java)
-// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
-// Subject: Object Oriented Programming (CEUE203)
+// Practical 12 - Program 2: Unique IP Visitors (HashSet) (Interactive Input)
+// Student ID: 25CS011 | Fenil Jagdishbhai Finava
+import java.util.Scanner;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 public class UniqueVisitors {
     public static void main(String[] args) {
-        List<String> logins = List.of("alice", "bob", "alice", "charlie", "bob", "david", "eva");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("=== Unique Visitor IP Filter (HashSet) ===");
+        System.out.println("Enter IP addresses one by one (type 'done' to finish):");
 
-        Set<String> uniqueSet = new HashSet<>(logins);
-        System.out.println("Unique visitors count: " + uniqueSet.size());
+        Set<String> uniqueIPs = new HashSet<>();
+        int totalInputs = 0;
 
-        Set<String> orderedSet = new LinkedHashSet<>(logins);
-        System.out.println("First three distinct visitors:");
-        int count = 0;
-        for (String user : orderedSet) {
-            if (count < 3) {
-                System.out.println(" - " + user);
-                count++;
-            }
+        while (true) {
+            System.out.print("Enter IP: ");
+            String ip = sc.next();
+            if (ip.equalsIgnoreCase("done")) break;
+            uniqueIPs.add(ip);
+            totalInputs++;
         }
+
+        System.out.println("\nTotal IPs entered: " + totalInputs);
+        System.out.println("Unique IP count: " + uniqueIPs.size());
+        System.out.println("Distinct IPs List: " + uniqueIPs);
     }
 }
