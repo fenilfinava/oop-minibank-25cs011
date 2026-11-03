@@ -1,3 +1,6 @@
+// Practical: lab-12 - Practical-1 (WordFrequency.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

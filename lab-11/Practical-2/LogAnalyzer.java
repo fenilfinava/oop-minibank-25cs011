@@ -1,3 +1,6 @@
+// Practical: lab-11 - Practical-2 (LogAnalyzer.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 import java.io.BufferedReader;
 import java.nio.file.Files;
 import java.nio.file.Path;

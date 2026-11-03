@@ -1,3 +1,6 @@
+// Practical: lab-04 - Practical-1 (PasswordChecker.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 public class PasswordChecker {
     public static String strength(String pw) {
         int passed = 0;

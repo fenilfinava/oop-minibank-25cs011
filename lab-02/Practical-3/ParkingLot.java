@@ -1,8 +1,15 @@
+// Practical: lab-02 - Practical-3 (ParkingLot.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 public class ParkingLot {
     private int twoWheelers;
+    // private data field encapsulation mate
     private int fourWheelers;
+    // private data field encapsulation mate
     private final int twoCap;
+    // private data field encapsulation mate
     private final int fourCap;
+    // private data field encapsulation mate
     private static long revenue = 0;
 
     public ParkingLot(int twoCap, int fourCap) {

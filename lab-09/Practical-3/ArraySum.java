@@ -1,3 +1,6 @@
+// Practical: lab-09 - Practical-3 (ArraySum.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 public class ArraySum {
     private long total = 0;
 

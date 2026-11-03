@@ -1,3 +1,6 @@
+// Practical: lab-01 - Practical-1 (VendingMachine.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 import java.util.Scanner;
 
 public class VendingMachine {

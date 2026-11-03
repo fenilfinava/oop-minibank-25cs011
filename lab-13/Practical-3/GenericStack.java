@@ -1,3 +1,6 @@
+// Practical: lab-13 - Practical-3 (GenericStack.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 import java.util.EmptyStackException;
 
 public class GenericStack<T> {

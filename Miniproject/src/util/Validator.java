@@ -1,5 +1,9 @@
 package util;
 
+
+// MiniBank Project: Console-Based Banking Application
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 import java.util.regex.Pattern;
 
 public class Validator {

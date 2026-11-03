@@ -1,3 +1,6 @@
+// Practical: lab-10 - Practical-3 (DeadlockDemo.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 public class DeadlockDemo {
     private static final Object Lock1 = new Object();
     private static final Object Lock2 = new Object();

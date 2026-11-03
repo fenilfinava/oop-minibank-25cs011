@@ -1,3 +1,6 @@
+// Practical: lab-06 - Practical-2 (Main.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 public class Main {
     static class UrgentEmailNotifier implements Notifier, Urgent {
         public void send(String msg) {

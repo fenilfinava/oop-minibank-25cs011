@@ -1,6 +1,11 @@
+// Practical: lab-02 - Practical-1 (Thermostat.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 public class Thermostat {
     private String location;
+    // private data field encapsulation mate
     private int temperature;
+    // private data field encapsulation mate
     private static final int MIN = 16;
     private static final int MAX = 30;
     private static int activeCount = 0;

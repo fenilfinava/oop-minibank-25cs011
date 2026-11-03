@@ -1,7 +1,13 @@
+// Practical: lab-02 - Practical-2 (CinemaShow.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 public class CinemaShow {
     private String title;
+    // private data field encapsulation mate
     private int seatsAvailable;
+    // private data field encapsulation mate
     private final int capacity;
+    // private data field encapsulation mate
     private static int totalBooked = 0;
 
     public CinemaShow(String title, int capacity) {

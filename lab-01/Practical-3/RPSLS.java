@@ -1,3 +1,6 @@
+// Practical: lab-01 - Practical-3 (RPSLS.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 import java.util.Random;
 import java.util.Scanner;
 

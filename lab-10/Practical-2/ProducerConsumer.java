@@ -1,3 +1,6 @@
+// Practical: lab-10 - Practical-2 (ProducerConsumer.java)
+// Student Name: Fenil Jagdishbhai Finava | Student ID: 25CS011
+// Subject: Object Oriented Programming (CEUE203)
 import java.util.LinkedList;
 import java.util.Queue;
 
