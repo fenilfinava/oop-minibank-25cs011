@@ -9,6 +9,22 @@ This repository contains the weekly lab practicals (Part A) and the console-base
 ## Folder Structure
 - `lab-01` to `lab-14`: Practice programs for each laboratory session.
 - `Miniproject/src`: MiniBank banking application developed progressively lab-by-lab.
+- `certificates/`: Coursera course completion certificates and verification links.
+
+## Coursera Course Certificates
+
+- **Student ID**: 25CS011  
+- **Student Name**: Fenil Jagdishbhai Finava  
+- **Specialization**: Core Java (LearnQuest)  
+- **Combined Certificate Submission PDF**: [`certificates/25CS011_Fenil_CourseraCert.pdf`](certificates/25CS011_Fenil_CourseraCert.pdf)  
+
+| No. | Course Name | Certificate | Public Verification URL |
+|:---:|---|---|---|
+| 1 | Introduction to Java | [`25cs011_corejava1.pdf`](certificates/25cs011_corejava1.pdf) | https://coursera.org/verify/545N25HARI49 |
+| 2 | Introduction to Object-Oriented Programming with Java | [`25cs011_corejava2.pdf`](certificates/25cs011_corejava2.pdf) | https://coursera.org/verify/FWTVVYT8N0OX |
+| 3 | Object-Oriented Hierarchies in Java | [`25cs011_corejava3.pdf`](certificates/25cs011_corejava3.pdf) | https://coursera.org/verify/G47ZMGXS8UYM |
+| 4 | Java Class Library | [`25cs011_corejava4.pdf`](certificates/25cs011_corejava4.pdf) | https://coursera.org/verify/HS1ECQTID07C |
+| ★ | **Core Java Specialization (All 4 Courses)** | [`25cs011_corejavafinal.pdf`](certificates/25cs011_corejavafinal.pdf) | https://coursera.org/verify/specialization/LRS1HHFQ7C9L |
 
 ## How to Compile and Run
 
